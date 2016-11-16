@@ -133,12 +133,19 @@ window.addEventListener("load", function(){
 
     document.getElementById('record').addEventListener('click', function(){
         //this is an object, not an iterable
-        var edges = cy.edges();
+        var nodes = cy.nodes();
+        var nodes_arr = [];
+        for (var i = 0; i < nodes.length; i++) {
+          nodes_arr.push(nodes[i].data());
+        }
+	var edges = cy.edges();
         var edges_arr = [];
-        for (var i = 0; i < edges.length; i++) {
+	for (var i = 0; i < edges.length; i++) {
           edges_arr.push(edges[i].data());
         }
-        console.log(edges.json());
+
+        //console.log(edges.json());
+        console.log(JSON.stringify(nodes_arr));
         console.log(JSON.stringify(edges_arr));
         //export the graph in a JSON format comparable to that
         //when initialized
