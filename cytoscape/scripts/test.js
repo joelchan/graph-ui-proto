@@ -1,6 +1,6 @@
 window.addEventListener("load", function(){
     var initial_nodes = [];
-    /*
+
     $.ajax({
         type: "GET",
         url: "input/nodes.json",
@@ -13,9 +13,7 @@ window.addEventListener("load", function(){
             var err = status + ", " + error;
             console.log("Request failed: " + err)
     });
-    var column_count = Math.floor(Math.sqrt(initial_nodes.length));
-    */
-   var column_count = 3;
+    var row_count = Math.floor(Math.sqrt(initial_nodes.length)) + 1;
     
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
@@ -25,7 +23,8 @@ window.addEventListener("load", function(){
         //RB 11/15/16: This should be recalculated dynamically based on the nodes.
         layout: {
             name: 'grid',
-            cols: column_count
+            //cols: column_count,
+            rows: row_count
         },
 
         style: [
@@ -95,13 +94,7 @@ window.addEventListener("load", function(){
 
         //RB 11/15/16: Nodes should come from input. No starting edges.
         elements: {
-            nodes: //initial_nodes,
-            [
-                { data: { id: 'j', name: 'Jerry' } },
-                { data: { id: 'e', name: 'Elaine' } },
-                { data: { id: 'k', name: 'Kramer' } },
-                { data: { id: 'g', name: 'George' } }
-            ],
+            nodes: initial_nodes,
             edges: []
         },
     });
@@ -149,7 +142,7 @@ window.addEventListener("load", function(){
         console.log(JSON.stringify(edges_arr));
         //export the graph in a JSON format comparable to that
         //when initialized
-        //console.log(cy.json());
+        console.log(JSON.stringify(cy.json()));
     });
 
 });
