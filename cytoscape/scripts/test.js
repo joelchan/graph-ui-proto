@@ -110,7 +110,7 @@ window.addEventListener("load", function(){
         toggleOffOnLeave: true,
         handleNodes: "node",
         handleSize: 10,
-        handleColor: '#DF0085',
+        handleColor: 'maroon',
         handleIcon: false,
         edgeType: function(){ return 'flat'; }
     });
@@ -122,9 +122,19 @@ window.addEventListener("load", function(){
     document.querySelector('#draw-off').addEventListener('click', function(){
         cy.edgehandles('drawoff');
     });
-    
+
     document.getElementById('record').addEventListener('click', function(){
-        console.log(cy.collection("edge"));
+        //this is an object, not an iterable
+        var edges = cy.edges();
+        var edges_arr = [];
+        for (var i = 0; i < edges.length; i++) {
+          edges_arr.push(edges[i].data());
+        }
+        console.log(edges.json());
+        console.log(JSON.stringify(edges_arr));
+        //export the graph in a JSON format comparable to that
+        //when initialized
+        //console.log(cy.json());
     });
 
 });
