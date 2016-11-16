@@ -28,6 +28,8 @@ window.addEventListener("load", function(){
                     'background-color': '#eee',
                     'text-wrap': 'wrap',
                     'text-max-width': 200,
+                    'text-outline-color': '#eee',
+                    'text-outline-width': 3,
                     'border-width': 1,
                     'border-color': '#ccc'
                 }
@@ -92,10 +94,10 @@ window.addEventListener("load", function(){
                 { data: { id: 'node-9', name: 'Understand workers\' error rates' } }
             ],
             edges: [
-            /*
-             *    { data: { source: 'node-1', target: 'node-2' } },
-             *    { data: { source: 'node-2', target: 'node-3' } },
-             */
+                /*
+                { data: { source: 'node-1', target: 'node-2' } },
+                { data: { source: 'node-2', target: 'node-3' } },
+                */             
             ]
         },
     });
@@ -115,12 +117,21 @@ window.addEventListener("load", function(){
         edgeType: function(){ return 'flat'; }
     });
 
-    document.querySelector('#draw-on').addEventListener('click', function(){
-        cy.edgehandles('drawon');
-    });
-
-    document.querySelector('#draw-off').addEventListener('click', function(){
-        cy.edgehandles('drawoff');
+    document.querySelector('#draw-mode').addEventListener('click', function(e) {
+        var draw_button = e.target;
+        var draw_mode = draw_button.getAttribute("data-draw-mode");
+        console.log(draw_mode);
+        if (draw_mode === "drawon") {
+            draw_mode = "drawoff";
+            draw_button_switch = "OFF";
+        }
+        else {
+            draw_mode = "drawon";
+            draw_button_switch = "ON";
+        }
+        cy.edgehandles(draw_mode);
+        draw_button.setAttribute("data-draw-mode", draw_mode);
+        draw_button.innerHTML = "Draw mode: " + draw_button_switch;
     });
 
     document.getElementById('record').addEventListener('click', function(){
