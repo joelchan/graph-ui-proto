@@ -6,15 +6,15 @@ window.addEventListener("load", function(){
         url: "input/nodes.json",
         dataType: "json",
         async: false,
-        success: function (data) { 
-            initial_nodes = data; 
+        success: function (data) {
+            initial_nodes = data;
         }})
         .fail(function(xhr, status, error) {
             var err = status + ", " + error;
             console.log("Request failed: " + err)
     });
     var row_count = Math.floor(Math.sqrt(initial_nodes.length)) + 1;
-    
+
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
 
@@ -26,6 +26,8 @@ window.addEventListener("load", function(){
             //cols: column_count,
             rows: row_count
         },
+
+        wheelSensitivity: 0.3,
 
         style: [
             {
@@ -48,11 +50,18 @@ window.addEventListener("load", function(){
             },
 
             {
+                selector: 'node.why-hard',
+                css: {
+                    'shape': 'triangle'
+                }
+            },
+
+            {
                 selector: 'edge',
                 css: {
                     'curve-style': 'bezier',
                     'target-arrow-shape': 'triangle',
-                    'background-color': '#eee',
+                    //'line-color': '#eee',
                     'width': 8
                 }
             },
@@ -92,7 +101,6 @@ window.addEventListener("load", function(){
             }
         ],
 
-        //RB 11/15/16: Nodes should come from input. No starting edges.
         elements: {
             nodes: initial_nodes,
             edges: []
