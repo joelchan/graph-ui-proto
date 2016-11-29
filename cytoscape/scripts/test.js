@@ -127,11 +127,11 @@ window.addEventListener("load", function(){
     });
 
     // remove an edge when it's clicked on
-    cy.on('click', 'edge', function(evnt) {
-        var target = evnt.cyTarget;
-        console.log(target.json());
-        target.remove();
-    });
+    // cy.on('click', 'edge', function(evnt) {
+    //     var target = evnt.cyTarget;
+    //     console.log(target.json());
+    //     target.remove();
+    // });
 
     cy.edgehandles({
         toggleOffOnLeave: true,
@@ -160,13 +160,16 @@ window.addEventListener("load", function(){
             title: 'remove',
             selector: 'node, edge',
             onClickFunction: function (event) {
-              event.cyTarget.remove();
+              var ok = confirm("Are you sure? You cannot undo this action.");
+              if (ok) {
+                event.cyTarget.remove();
+              }
             },
-            hasTrailingDivider: true
+            // hasTrailingDivider: true
           },
           {
             id: 'edit-label',
-            title: 'edit-label',
+            title: 'edit label',
             selector: 'node',
             onClickFunction: function (event) {
               // get the current name of the node
@@ -184,15 +187,15 @@ window.addEventListener("load", function(){
 
             }
           },
-          {
-            id: 'hide',
-            title: 'hide',
-            selector: '*',
-            onClickFunction: function (event) {
-              event.cyTarget.hide();
-            },
-            disabled: false
-          },
+          // {
+          //   id: 'hide',
+          //   title: 'hide',
+          //   selector: '*',
+          //   onClickFunction: function (event) {
+          //     event.cyTarget.hide();
+          //   },
+          //   disabled: false
+          // },
           {
             id: 'add-node',
             title: 'add node',
@@ -218,7 +221,10 @@ window.addEventListener("load", function(){
             title: 'remove selected',
             coreAsWell: true,
             onClickFunction: function (event) {
-              cy.$(':selected').remove();
+              var ok = confirm("Are you sure? You cannot undo this action.");
+              if (ok) {
+                cy.$(':selected').remove();
+              }
             }
           },
           {
