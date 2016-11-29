@@ -1,6 +1,7 @@
 window.addEventListener("load", function(){
     var initial_nodes = [];
 
+    // get initial data
     $.ajax({
         type: "GET",
         url: "input/nodes.json",
@@ -15,6 +16,7 @@ window.addEventListener("load", function(){
     });
     var row_count = Math.floor(Math.sqrt(initial_nodes.length)) + 1;
 
+    // initialize the graph
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
 
@@ -107,6 +109,7 @@ window.addEventListener("load", function(){
         },
     });
 
+    // remove an edge when it's clicked on
     cy.on('click', 'edge', function(evnt) {
         var target = evnt.cyTarget;
         console.log(target.json());
@@ -122,6 +125,100 @@ window.addEventListener("load", function(){
         edgeType: function(){ return 'flat'; }
     });
 
+    var selectAllOfTheSameType = function(ele) {
+        cy.elements().unselect();
+        if(ele.isNode()) {
+            cy.nodes().select();
+        }
+        else if(ele.isEdge()) {
+            cy.edges().select();
+        }
+    };
+
+    // controllers for context menus
+    cy.contextMenus({
+        menuItems: [
+          {
+            id: 'remove',
+            title: 'remove',
+            selector: 'node, edge',
+            onClickFunction: function (event) {
+              event.cyTarget.remove();
+            },
+            hasTrailingDivider: true
+          },
+          {
+            id: 'edit-label',
+            title: 'edit-label',
+            selector: 'node',
+            onClickFunction: function (event) {
+              var currentName = event.cyTarget.data('name');
+              var newName = prompt("Edit node label", currentName);
+              if (!newName) {
+                  event.cyTarget.data('name', currentName);
+              } else {
+                  event.cyTarget.data('name', newName);
+              }
+
+            }
+          },
+          {
+            id: 'hide',
+            title: 'hide',
+            selector: '*',
+            onClickFunction: function (event) {
+              event.cyTarget.hide();
+            },
+            disabled: false
+          },
+          {
+            id: 'add-node',
+            title: 'add node',
+            coreAsWell: true,
+            onClickFunction: function (event) {
+              var newName = prompt("Name this node");
+              var data = {
+                  group: 'nodes',
+                  name: newName
+              };
+
+              cy.add({
+                  data: data,
+                  position: {
+                      x: event.cyPosition.x,
+                      y: event.cyPosition.y
+                  }
+              });
+            }
+          },
+          {
+            id: 'remove-selected',
+            title: 'remove selected',
+            coreAsWell: true,
+            onClickFunction: function (event) {
+              cy.$(':selected').remove();
+            }
+          },
+          {
+            id: 'select-all-nodes',
+            title: 'select all nodes',
+            selector: 'node',
+            onClickFunction: function (event) {
+              selectAllOfTheSameType(event.cyTarget);
+            }
+          },
+          {
+            id: 'select-all-edges',
+            title: 'select all edges',
+            selector: 'edge',
+            onClickFunction: function (event) {
+              selectAllOfTheSameType(event.cyTarget);
+            }
+          }
+      ]
+    });
+
+    // initiate "draw mode" for drawing edges
     document.querySelector('#draw-mode').addEventListener('click', function(e) {
         var draw_button = e.target;
         var draw_mode = draw_button.getAttribute("data-draw-mode");
@@ -139,6 +236,8 @@ window.addEventListener("load", function(){
         draw_button.innerHTML = "Draw mode: " + draw_button_switch;
     });
 
+    // print the current state of the graph to console
+    // when user clicks on the "record" button
     document.getElementById('record').addEventListener('click', function(){
         //this is an object, not an iterable
         var nodes = cy.nodes();
@@ -146,9 +245,9 @@ window.addEventListener("load", function(){
         for (var i = 0; i < nodes.length; i++) {
           nodes_arr.push(nodes[i].data());
         }
-	var edges = cy.edges();
-        var edges_arr = [];
-	for (var i = 0; i < edges.length; i++) {
+      	var edges = cy.edges();
+              var edges_arr = [];
+      	for (var i = 0; i < edges.length; i++) {
           edges_arr.push(edges[i].data());
         }
 
