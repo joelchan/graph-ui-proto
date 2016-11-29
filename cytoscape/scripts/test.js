@@ -50,7 +50,24 @@ window.addEventListener("load", function(){
                     'border-color': '#ccc'
                 }
             },
-
+            {
+              selector: 'node:selected',
+              css: {
+                'content': 'data(name)',
+                'height': 100,
+                'width': 100,
+                'text-valign': 'center',
+                'text-halign': 'center',
+                'text-align': 'justify',
+                'background-color': '#eee',
+                'text-wrap': 'wrap',
+                'text-max-width': 200,
+                'text-outline-color': '#eee',
+                'text-outline-width': 3,
+                'border-width': 4,
+                'border-color': 'blue'
+              }
+            },
             {
                 selector: 'node.why-hard',
                 css: {
@@ -152,11 +169,16 @@ window.addEventListener("load", function(){
             title: 'edit-label',
             selector: 'node',
             onClickFunction: function (event) {
+              // get the current name of the node
               var currentName = event.cyTarget.data('name');
+              // prompt the user for a new name
+              // (provide current name as default)
               var newName = prompt("Edit node label", currentName);
               if (!newName) {
+                  // use the old name if the user cancels
                   event.cyTarget.data('name', currentName);
               } else {
+                  // put in the new name
                   event.cyTarget.data('name', newName);
               }
 

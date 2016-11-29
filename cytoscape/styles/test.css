@@ -18,6 +18,13 @@ h1 {
     z-index: 999;
 }
 
+/*#cy:active {
+  border-top: 3px solid blue;
+	overlay-color: black;
+	overlay-padding: 10;
+	overlay-opacity: 0.25; /*and others… if the dev wants*/
+/*}*/
+
 #buttons {
     position: absolute;
     right: 0;
