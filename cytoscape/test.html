@@ -36,15 +36,18 @@
 				<li>To <strong>zoom in/out</strong> on the canvas, scroll up/down.</li>
 				<li>To <strong>select multiple nodes</strong>, hold the 'option' key and drag to create a selection box.</li>
 			</ul>
-
+			<div id="buttons">
+				<button id="record-json">Export as JSON</button>
+				<button id="record-png">Export as PNG</button>
+				<a id="export-json" target="_blank" href="" style="display:none;"></a>
+				<a id="export-png" target="_blank" href="" style="display:none;"></a>
+				<button id="draw-mode" data-draw-mode="drawoff">Draw mode: OFF</button>
+			</div>
 		</div>
 
 		<div id="cy"></div>
 
-		<div id="buttons">
-			<button id="record">Record</button>
-			<button id="draw-mode" data-draw-mode="drawoff">Draw mode: OFF</button>
-		</div>
+
 
 	</body>
 

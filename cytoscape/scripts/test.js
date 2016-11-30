@@ -296,7 +296,7 @@ window.addEventListener("load", function(){
 
     // print the current state of the graph to console
     // when user clicks on the "record" button
-    document.getElementById('record').addEventListener('click', function(){
+    document.getElementById('record-json').addEventListener('click', function(){
         //this is an object, not an iterable
         var nodes = cy.nodes();
         var nodes_arr = [];
@@ -315,6 +315,18 @@ window.addEventListener("load", function(){
         //export the graph in a JSON format comparable to that
         //when initialized
         console.log(JSON.stringify(cy.json()));
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cy.json(), null, 3));
+        var dlAnchorElem = document.getElementById('export-json');
+        dlAnchorElem.setAttribute("href", dataStr);
+        dlAnchorElem.setAttribute("download", "my-graph.json");
+        dlAnchorElem.click();
+        // document.getElementById("export-json").setAttribute("href", cy.json());
+        // document.getElementById("export-json").click();
     });
+
+    document.getElementById('record-png').addEventListener('click', function(){
+      document.getElementById("export-png").setAttribute("href", cy.png());
+      document.getElementById("export-png").click();
+    })
 
 });
