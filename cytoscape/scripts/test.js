@@ -71,7 +71,8 @@ window.addEventListener("load", function(){
             {
                 selector: 'node.why-hard',
                 css: {
-                    'shape': 'triangle'
+                    'shape': 'triangle',
+                    'background-color': '#ffb3b3'
                 }
             },
 
@@ -187,6 +188,14 @@ window.addEventListener("load", function(){
 
             }
           },
+          {
+            id: 'change-type',
+            title: 'change type',
+            selector: 'node',
+            onClickFunction: function (event) {
+              event.cyTarget.toggleClass("why-hard");
+            }
+          },
           // {
           //   id: 'hide',
           //   title: 'hide',
@@ -197,7 +206,7 @@ window.addEventListener("load", function(){
           //   disabled: false
           // },
           {
-            id: 'add-node',
+            id: 'add-action',
             title: 'add node',
             coreAsWell: true,
             onClickFunction: function (event) {
@@ -213,6 +222,27 @@ window.addEventListener("load", function(){
                       x: event.cyPosition.x,
                       y: event.cyPosition.y
                   }
+              });
+            }
+          },
+          {
+            id: 'add-why-hard',
+            title: 'add why-hard',
+            coreAsWell: true,
+            onClickFunction: function (event) {
+              var newName = prompt("Name this node");
+              var data = {
+                  group: 'nodes',
+                  name: newName
+              };
+
+              cy.add({
+                  data: data,
+                  position: {
+                      x: event.cyPosition.x,
+                      y: event.cyPosition.y
+                  },
+                  classes: "why-hard"
               });
             }
           },
